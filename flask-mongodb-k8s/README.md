@@ -56,7 +56,7 @@ flask-mongodb-k8s/
 │   │   └── service.yaml
 │   └── mongodb/
 │       ├── pvc.yaml
-│       ├── secret.yaml
+│       ├── secret.example.yaml
 │       ├── service.yaml
 │       └── statefulset.yaml
 ├── screenshots/
@@ -135,7 +135,7 @@ kubectl create namespace faralpha --dry-run=client -o yaml | kubectl apply -f -
 
 ### 2. Create the MongoDB Secret safely
 
-**`k8s/mongodb/secret.yaml` contains placeholder credentials and must not be applied as-is.** Create the Secret interactively instead. This PowerShell example prompts for the username and a masked password, builds a Secret in memory, and sends it to `kubectl` over standard input. The password is not placed in command history or project files, but it is briefly converted from a `SecureString` to a plaintext .NET string in process memory; removing the variable does not guarantee secure erasure of that memory.
+**`k8s/mongodb/secret.example.yaml` is an example only. Its values are placeholders, so do not apply it to the cluster.** Create the actual live Secret interactively instead. This PowerShell example prompts for the username and a masked password, builds a Secret in memory, and sends it to `kubectl` over standard input. The password is not placed in command history or project files, but it is briefly converted from a `SecureString` to a plaintext .NET string in process memory; removing the variable does not guarantee secure erasure of that memory.
 
 ```powershell
 $mongoUser = Read-Host "MongoDB root username"
