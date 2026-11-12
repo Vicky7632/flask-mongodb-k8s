@@ -37,11 +37,11 @@ spec:
                   key: MONGO_INITDB_ROOT_PASSWORD
           resources:
             requests:
-              cpu: 200m
-              memory: 250Mi
+              cpu: 250m
+              memory: 512Mi
             limits:
-              cpu: 500m
-              memory: 500Mi
+              cpu: 1000m
+              memory: 768Mi
           startupProbe:
             exec:
               command:
@@ -50,7 +50,7 @@ spec:
                 - --eval
                 - "db.adminCommand({ ping: 1 }).ok"
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 30
           readinessProbe:
             exec:
@@ -60,7 +60,7 @@ spec:
                 - --eval
                 - "db.adminCommand({ ping: 1 }).ok"
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 3
           livenessProbe:
             exec:
@@ -70,7 +70,7 @@ spec:
                 - --eval
                 - "db.adminCommand({ ping: 1 }).ok"
             periodSeconds: 20
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 3
           volumeMounts:
             - name: mongodb-data

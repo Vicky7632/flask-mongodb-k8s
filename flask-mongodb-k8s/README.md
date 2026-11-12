@@ -214,9 +214,9 @@ Invoke-RestMethod -Uri "http://localhost:30082/data"
 | Workload | CPU request | CPU limit | Memory request | Memory limit |
 |---|---:|---:|---:|---:|
 | Flask container | 100m | 500m | 128Mi | 256Mi |
-| MongoDB container | 200m | 500m | 250Mi | 500Mi |
+| MongoDB container | 250m | 1000m | 512Mi | 768Mi |
 
-The `flask-api` HPA uses `autoscaling/v2`, targets average CPU utilization of `75%` of the Flask CPU request, and keeps between 2 and 5 replicas. The HPA requires Metrics Server and CPU requests on the target containers to calculate utilization.
+The MongoDB startup, readiness, and liveness probes each use a 10-second timeout. The `flask-api` HPA uses `autoscaling/v2`, targets average CPU utilization of `75%` of the Flask CPU request, and keeps between 2 and 5 replicas. The HPA requires Metrics Server and CPU requests on the target containers to calculate utilization. In the verified load test, it scaled **2 → 4 → 5 → 2 replicas** as CPU rose above and later fell below the target.
 
 ### Docker Desktop Metrics Server note
 
@@ -331,6 +331,36 @@ kubectl --context docker-desktop -n kube-system logs deployment/metrics-server
 ```
 
 If HPA CPU targets show `<unknown>`, check Metrics Server rollout and `v1beta1.metrics.k8s.io` availability, then check `kubectl top pods -n faralpha`. HPA scale-down is intentionally delayed by its stabilization behavior; allow several minutes after stopping load.
+
+## Screenshots
+
+### Kubernetes workloads
+
+![Kubernetes workloads](screenshots/01-kubernetes-workloads.png)
+
+### MongoDB persistent volume claim
+
+![MongoDB PVC](screenshots/02-mongodb-pvc.png)
+
+### HPA configuration
+
+![HPA configuration](screenshots/03-hpa-configuration.png)
+
+### HPA scale-up
+
+![HPA scale-up](screenshots/04-hpa-scale-up.png)
+
+### HPA scale-down
+
+![HPA scale-down](screenshots/05-hpa-scale-down.png)
+
+### Flask API
+
+![Flask API](screenshots/06-flask-api.png)
+
+### MongoDB API
+
+![MongoDB API](screenshots/07-mongodb-api.png)
 
 ## Cleanup
 
