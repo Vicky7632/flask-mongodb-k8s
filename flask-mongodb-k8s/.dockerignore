@@ -1,5 +1,7 @@
 .git/
 .gitignore
+.vscode/
+.idea/
 .env
 .env.*
 __pycache__/
@@ -7,11 +9,15 @@ __pycache__/
 .venv/
 venv/
 env/
+ENV/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .tox/
 .coverage
 htmlcov/
+tests/
+*.egg-info/
+*.log
 .DS_Store
 Thumbs.db
